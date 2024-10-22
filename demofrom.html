@@ -10,15 +10,17 @@
     body {
       background-color: #f4f7f6;
       font-family: 'Arial', sans-serif;
-      padding-right: 50px;
+      padding-right: 10px; 
+      padding-left: 10px; 
     }
 
     .form-container {
       position: fixed;
-      right: 30px;
+      right: 20px;
       top: 20px;
       height: auto;
-      width: 520px;
+      width: 100%; /* Changed to 100% for better responsiveness */
+      max-width: 520px; /* Maintained a maximum width */
       background-color: #fff;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
       padding: 20px;
@@ -84,10 +86,24 @@
       padding: 0 10px;
     }
 
-   
     .alert {
       display: none;
       margin-top: 15px;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 576px) {
+      .form-container {
+        padding: 15px; /* Reduce padding on smaller screens */
+      }
+
+      .form-title {
+        font-size: 1.3rem; /* Adjust title size */
+      }
+
+      .form-subtitle {
+        font-size: 0.8rem; /* Adjust subtitle size */
+      }
     }
   </style>
 </head>
@@ -97,12 +113,11 @@
   <div class="form-container">
     <h2 class="form-title">Setup a Demo</h2>
     <p class="form-subtitle">Free 30 Min Website Monetization Consulting Included</p>
-    
+
     <div id="successMessage" class="alert alert-success" role="alert">
       Your request has been submitted successfully!
     </div>
 
-    
     <div id="errorMessage" class="alert alert-danger" role="alert">
       There was an error submitting your request. Please try again.
     </div>
@@ -171,38 +186,32 @@
   <script>
     const form = document.getElementById('dataForm');
     form.addEventListener('submit', async function(e) {
-      e.preventDefault(); 
+      e.preventDefault();
 
-      
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
       try {
-        
-        const response = await fetch('https://script.google.com/macros/s/AKfycbxIi74VhlGflfZ9wWXh9Lb7Lhc_3CCENmYf4AxOZ7r4gkmxgrwOzz6c-Xv_xYcHjSwixA/exec', {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbxtXn3QGMpyqOpViWL4bx58os2nWKVsOsR8MKKKo_JnMPGwXiOAxdLlJLqBA9gbdHw9/exec', {
           method: 'POST',
-          body: new URLSearchParams(data) 
+          body: new URLSearchParams(data)
         });
 
         const result = await response.json();
 
         if (result.result === 'success') {
-        
           document.getElementById('successMessage').style.display = 'block';
           document.getElementById('errorMessage').style.display = 'none';
         } else {
-         
           document.getElementById('successMessage').style.display = 'none';
           document.getElementById('errorMessage').style.display = 'block';
         }
 
       } catch (error) {
-        
         document.getElementById('successMessage').style.display = 'none';
         document.getElementById('errorMessage').style.display = 'block';
       }
 
-      
       form.reset();
     });
   </script>
